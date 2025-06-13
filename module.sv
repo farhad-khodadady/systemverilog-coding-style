@@ -68,13 +68,13 @@ submodule_name submodule_inst (
 //==== Combinational Logic Block ====================================================================================================================
 always_comb begin
     // Example of combinational logic
-    temp = <some_operation>;   
+    temp = <some_operation>;
 end
 
 //==== Sequential Logic Block =======================================================================================================================
 always_ff @(posedge clk) begin
     //  Example of sequential logic
-    data_out <= temp;           
+    data_out <= temp;
 end
 
 //===================================================================================================================================================
@@ -83,4 +83,4 @@ end
 endmodule
 
 //==== Reset declarations to default ================================================================================================================
-`default_nettype wire  
+`default_nettype wire
