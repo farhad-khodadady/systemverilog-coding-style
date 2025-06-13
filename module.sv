@@ -12,11 +12,11 @@
 //   -
 //   -
 //   - Reference   : Based on the guidelines provided by <relevant source, literature or team>.
-//   - Future Works: <Mention any future improvements or updates expected.>
+//   - TODO        : <Mention any future improvements or updates expected.>
 //===================================================================================================================================================
 
 //==== Enforce explicit declarations ================================================================================================================
-`default_nettype none  
+`default_nettype none
 
 //===================================================================================================================================================
 //  Import Packages & Include Header Files
