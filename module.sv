@@ -36,9 +36,9 @@ module <module_name> #(
 )
 (
     // Clock signal
-    input wire          clk           ,
+    input  logic        clk           ,
     // Example Input Signal
-    input wire   [31:0] data_in       ,
+    input  logic [31:0] data_in       ,
     // Example Output Signal
     output logic [31:0] data_out
 );
