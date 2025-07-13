@@ -35,7 +35,6 @@ module module_template #(
     parameter int       Paramater1 = 0
 )
 (
-    // Clock signal
     input  logic        clk           ,
     // Example Input Signal
     input  logic [31:0] data_in       ,
