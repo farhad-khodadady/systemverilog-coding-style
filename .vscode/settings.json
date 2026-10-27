@@ -1,0 +1,10 @@
+{
+    "verible.arguments": [
+        "--rules_config_search",
+        "--waiver_files=.verible-lint.waiver",
+        "--flagfile=.verible-format.flags"
+    ],
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true
+}

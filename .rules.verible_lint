@@ -1,0 +1,92 @@
+# ====================================================================================================================================================
+# Verible lint rules for the SystemVerilog coding style in this repository.
+#
+# Every rule known to Verible is listed explicitly (enabled, disabled with "-", or configured with
+# "=") so the file documents the full policy and does not silently change when Verible's own
+# defaults change. Section numbers refer to README.md.
+#
+# Auto-discovered by:  verible-verilog-lint --rules_config_search <files>
+# Explicit use:        verible-verilog-lint --rules_config=.rules.verible_lint <files>
+# Checked against:     Verible v0.0-4296-g0f262651
+#
+# Copyright (c) 2026 Farhad Khodadady
+# SPDX-License-Identifier: MIT
+# ====================================================================================================================================================
+
+# --- Layout & formatting (README section 2) ---------------------------------------------------------------------------------------------------------
+line-length=length:150
+no-tabs
+no-trailing-spaces
+posix-eof
+forbid-line-continuations
+
+# --- Files (README section 1) -----------------------------------------------------------------------------------------------------------------------
+module-filename=allow-dash-for-underscore:false
+package-filename=allow-dash-for-underscore:false
+one-module-per-file
+
+# --- Naming (README section 3) ----------------------------------------------------------------------------------------------------------------------
+signal-name-style=style_regex:[a-z][a-z0-9_]*
+port-name-suffix
+dff-name-style=input:;output:q;waive_ifs_with_conditions:!rst_n,rst,!srst_n,srst;waive_lhs_regex:(?i)mem.*
+parameter-name-style=localparam_style:ALL_CAPS;parameter_style:ALL_CAPS;localparam_style_regex:;parameter_style_regex:
+parameter-type-name-style
+enum-name-style=style_regex:[a-z][a-z0-9_]*_e
+struct-union-name-style=exceptions:
+interface-name-style=style_regex:[a-z][a-z0-9_]*_if
+macro-name-style=style_regex:[A-Z][A-Z0-9_]*
+constraint-name-style=pattern:([a-z0-9]+_)+c
+generate-label-prefix=style_regex:gen_.*
+positive-meaning-parameter-name
+-banned-declared-name-patterns
+
+# --- Declarations & types (README section 4) --------------------------------------------------------------------------------------------------------
+typedef-enums
+typedef-structs-unions=allow_anonymous_nested:false
+explicit-parameter-storage-type=exempt_type:
+proper-parameter-declaration=package_allow_parameter:false;package_allow_localparam:true
+packed-dimensions-range-ordering
+unpacked-dimensions-range-ordering
+forbid-negative-array-dim
+undersized-binary-literal=bin:true;oct:false;hex:false;lint_zero:false;autofix:true
+truncated-numeric-literal
+# Disabled: reports every use of a typedef inside a struct or function as "shadowing" the typedef.
+-instance-shadowing
+
+# --- Procedural code (README section 5) -------------------------------------------------------------------------------------------------------------
+always-comb
+always-comb-blocking
+always-ff-non-blocking=catch_modifying_assignments:true;waive_for_locals:false
+case-missing-default
+explicit-begin=if_enable:true;else_enable:true;always_enable:true;always_comb_enable:true;always_latch_enable:true;always_ff_enable:true;for_enable:true;forever_enable:true;foreach_enable:true;while_enable:true;initial_enable:true
+explicit-function-lifetime
+explicit-task-lifetime
+explicit-function-task-parameter-type
+suggest-parentheses
+suspicious-semicolon
+forbid-consecutive-null-statements
+void-cast
+
+# --- Hierarchy & generate (README section 6) --------------------------------------------------------------------------------------------------------
+module-parameter
+module-port
+forbid-defparam
+generate-label
+legacy-generate-region
+legacy-genvar-declaration
+v2001-generate-begin
+module-begin-block
+mismatched-labels
+
+# --- Preprocessor (README section 7) ----------------------------------------------------------------------------------------------------------------
+endif-comment
+macro-string-concatenation
+forbidden-macro
+
+# --- Verification (README section 9) ----------------------------------------------------------------------------------------------------------------
+invalid-system-task-function
+plusarg-assignment
+create-object-name-match
+numeric-format-string-style
+disable-statement
+uvm-macro-semicolon
