@@ -1,0 +1,43 @@
+# ====================================================================================================================================================
+# Verible formatter options for the SystemVerilog coding style in this repository.
+#
+# The formatter output is the layout of this style (README section 2), so every file is formatted with these options.
+#
+# Format in place:    verible-verilog-format --flagfile=.verible-format.flags --inplace <files>
+# Check only:         verible-verilog-format --flagfile=.verible-format.flags --verify --inplace <files>
+# Checked against:    Verible v0.0-4296-g0f262651
+#
+# Comments must be on their own line: text after a flag on the same line becomes part of its value.
+#
+# Copyright (c) 2026 Farhad Khodadady
+# SPDX-License-Identifier: MIT
+# ====================================================================================================================================================
+
+# --- Indentation & line length ----------------------------------------------------------------------------------------------------------------------
+--indentation_spaces=4
+--wrap_spaces=4
+--column_limit=150
+
+# --- Port, parameter and connection lists: one indent level per entry -------------------------------------------------------------------------------
+--port_declarations_indentation=indent
+--formal_parameters_indentation=indent
+--named_port_indentation=indent
+--named_parameter_indentation=indent
+
+# --- Column alignment -------------------------------------------------------------------------------------------------------------------------------
+--port_declarations_alignment=align
+--formal_parameters_alignment=align
+--named_port_alignment=align
+--named_parameter_alignment=align
+--module_net_variable_alignment=align
+--assignment_statement_alignment=align
+--case_items_alignment=align
+--struct_union_members_alignment=align
+--enum_assignment_statement_alignment=align
+--class_member_variable_alignment=align
+--distribution_items_alignment=align
+
+# --- A blank line or a comment line starts a new alignment group, so each section is aligned on its own ---------------------------------------------
+# Port, parameter and connection lists ignore this flag: there a blank line always starts a new group and a comment line never does,
+# so these lists have no blank lines (README rule 2.7).
+--alignment_group_boundary=blank-lines-and-separator-comments

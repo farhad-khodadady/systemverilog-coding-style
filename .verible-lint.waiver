@@ -1,0 +1,13 @@
+# ====================================================================================================================================================
+# Verible lint waivers for the SystemVerilog coding style in this repository.
+#
+# Usage: verible-verilog-lint --rules_config_search --waiver_files=.verible-lint.waiver <files>
+#
+# Copyright (c) 2026 Farhad Khodadady
+# SPDX-License-Identifier: MIT
+# ====================================================================================================================================================
+
+# README section 3.2: clock and reset ports are named clk, clk_<domain>, rst_n, srst, rst_<domain>_n, ...
+# without the _i direction suffix. Waive port-name-suffix only on identifiers that start with
+# clk, rst or srst, so every other port is still checked.
+waive --rule=port-name-suffix --regex="\b(clk|s?rst)(_[a-z0-9]+)*\b"

@@ -1,0 +1,24 @@
+// VS Code workspace settings: applied automatically when this folder is opened with File > Open Folder.
+// See docs/verible.md, section 5, for what each setting does and how to reuse them in another project.
+{
+    // Arguments passed to verible-verilog-ls, the language server started by the Verible extension.
+    // Relative paths are resolved from the folder opened in VS Code (the repository root).
+    "verible.arguments": [
+        "--rules_config_search", // Lint with the nearest .rules.verible_lint
+        "--waiver_files=.verible-lint.waiver", // Waive lint violations in this file
+        "--flagfile=.verible-format.flags" // Format with this style's formatter options
+    ],
+    // The Verible extension only maps .sv and .v files to SystemVerilog; include files need this.
+    "files.associations": {
+        "*.svh": "systemverilog"
+    },
+    // Format SystemVerilog files with Verible every time they are saved.
+    "[systemverilog]": {
+        "editor.defaultFormatter": "chipsalliance.verible",
+        "editor.formatOnSave": true
+    },
+    // Match .editorconfig: LF line endings, a final newline, no trailing spaces.
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true
+}
