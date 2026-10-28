@@ -14,6 +14,8 @@
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 // Notes
 //   - Example behaviour: start_i launches a run of RUN_CYCLES cycles, then done_o pulses for one cycle.
+//   - Alternative style (README rule 5.10): the whole FSM in a single always_ff, without state_d/cnt_d. Every output assigned in that block
+//     becomes a register, so an output then changes one cycle after the state that causes it.
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 // TODO
 //   - Replace the example states and transitions with the real ones.
