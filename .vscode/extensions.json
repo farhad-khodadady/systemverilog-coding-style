@@ -1,0 +1,7 @@
+// Extensions recommended for this workspace. VS Code offers to install them when the folder is opened;
+// they are also listed under "Workspace Recommendations" in the Extensions view.
+{
+    "recommendations": [
+        "chipsalliance.verible"  // Verible: lint while typing, format on save
+    ]
+}

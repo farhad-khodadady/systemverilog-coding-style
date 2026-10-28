@@ -1,0 +1,48 @@
+# Copyright (c) 2026 Farhad Khodadady
+# SPDX-License-Identifier: MIT
+
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  VERIBLE_VERSION: v0.0-4296-g0f262651
+
+jobs:
+  lint:
+    name: Verible lint & format
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Verible ${{ env.VERIBLE_VERSION }}
+        run: |
+          curl -fsSL "https://github.com/chipsalliance/verible/releases/download/${VERIBLE_VERSION}/verible-${VERIBLE_VERSION}-linux-static-x86_64.tar.gz" | tar -xz
+          echo "${PWD}/verible-${VERIBLE_VERSION}/bin" >> "${GITHUB_PATH}"
+
+      - name: Lint
+        run: make lint
+
+      - name: Format check
+        run: make format-check
+
+  sim:
+    name: Simulate (Verilator)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Verilator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends verilator
+          verilator --version
+
+      - name: Run self-checking testbenches
+        run: make sim

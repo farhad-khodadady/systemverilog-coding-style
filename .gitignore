@@ -1,0 +1,15 @@
+# Simulation and build outputs
+build/
+*.vcd
+*.fst
+*.vvp
+obj_dir/
+
+# Tool logs
+*.log
+*.jou
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
