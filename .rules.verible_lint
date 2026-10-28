@@ -36,7 +36,7 @@ struct-union-name-style=exceptions:
 interface-name-style=style_regex:[a-z][a-z0-9_]*_if
 macro-name-style=style_regex:[A-Z][A-Z0-9_]*
 constraint-name-style=pattern:([a-z0-9]+_)+c
-generate-label-prefix=style_regex:gen_.*
+generate-label-prefix=style_regex:g_.*
 positive-meaning-parameter-name
 -banned-declared-name-patterns
 
