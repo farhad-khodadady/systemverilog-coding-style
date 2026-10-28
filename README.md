@@ -227,6 +227,7 @@ module sync_fifo_wrapper
 | 6.7  | Interfaces have one modport per role (`source`, `sink`, `monitor`), and modules use `<name>_if.<modport>` ports.   | Directions are checked by the tools, and a protocol change is made in one place. |      |
 | 6.8  | Keep plain ports, not interfaces, on the chip top level and on vendor IP-packager boundaries.                      | Many FPGA/ASIC flows and IP packagers do not support interface ports.                    |      |
 | 6.9  | Close every named construct with its label: `endmodule : name`, `endpackage : name`, `end : label`, …             | You can see what ends where, and the tool checks that the labels match.       |  ✓   |
+| 6.10 | Instantiate a sub-module in the section of the logic it belongs to, next to the code that drives or uses its ports. No separate "instances" section. | One function of the module is read in one place, including the blocks it is built from. |      |
 
 ### 7. Compilation & preprocessor
 

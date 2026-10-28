@@ -67,7 +67,7 @@ module template_module
     word_t data_d;
 
     // ===============================================================================================================================================
-    // Sub-module instances
+    // Input window control: the FSM opens the window that the data path below captures in
     // ===============================================================================================================================================
     template_fsm #(
         .RUN_CYCLES(FSM_RUN_CYCLES)
