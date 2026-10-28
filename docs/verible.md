@@ -194,7 +194,8 @@ SystemVerilog files fail lint or formatting:
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-mapfile -t files < <(git diff --cached --name-only --diff-filter=ACM -- '*.sv' '*.svh')
+files=()
+while IFS= read -r f; do files+=("$f"); done < <(git diff --cached --name-only --diff-filter=ACM -- '*.sv' '*.svh')
 [ "${#files[@]}" -eq 0 ] && exit 0
 verible-verilog-lint --rules_config_search --waiver_files=.verible-lint.waiver "${files[@]}"
 verible-verilog-format --flagfile=.verible-format.flags --verify --inplace "${files[@]}"
