@@ -28,7 +28,8 @@ one-module-per-file
 # --- Naming (README section 3) ----------------------------------------------------------------------------------------------------------------------
 signal-name-style=style_regex:[a-z][a-z0-9_]*
 port-name-suffix
-dff-name-style=input:;output:q;waive_ifs_with_conditions:!rst_n,rst,!srst_n,srst;waive_lhs_regex:(?i)mem.*
+# Indexed registers are checked by name only: memories (mem*) and delay lines (x_q[N], README rule 3.5).
+dff-name-style=input:;output:q;waive_ifs_with_conditions:!rst_n,rst,!srst_n,srst;waive_lhs_regex:(?i)mem.*|.*_q\[.*
 parameter-name-style=localparam_style:ALL_CAPS;parameter_style:ALL_CAPS;localparam_style_regex:;parameter_style_regex:
 parameter-type-name-style
 enum-name-style=style_regex:[a-z][a-z0-9_]*_e
