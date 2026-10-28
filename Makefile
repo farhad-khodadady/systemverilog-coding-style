@@ -25,7 +25,9 @@ FORMAT_FLAGS    := --flagfile=.verible-format.flags
 VERILATOR_FLAGS := --binary --timing -j 0 -Wno-fatal
 
 # $(call run_sim,<top>,<files>,<extra flags>): build <top> with Verilator, run it, require "TEST PASSED".
+# BUILD_DIR is created first: Verilator creates its --Mdir folder but not missing parent folders.
 define run_sim
+	mkdir -p $(BUILD_DIR)
 	$(VERILATOR) $(VERILATOR_FLAGS) $(3) --top-module $(1) --Mdir $(BUILD_DIR)/$(1) -o $(1) $(2)
 	$(BUILD_DIR)/$(1)/$(1) +seed=$(SEED) | tee $(BUILD_DIR)/$(1).log
 	grep -q "TEST PASSED" $(BUILD_DIR)/$(1).log
