@@ -203,6 +203,7 @@ rule is checked by Verible with the configuration in this repository; the rest a
 | 5.13 | Functions and tasks are `automatic`, have typed arguments and a named end (`endfunction : name`).                            | Each call gets its own variables: no state kept between calls, safe for recursion and concurrent calls. |  ✓   |
 | 5.14 | In RTL, use functions only. Tasks are for verification code that consumes time; use a `void` function when nothing waits.  | Functions are zero-time by definition and always synthesizable.          |      |
 | 5.15 | No delays (`#`), `initial`, `force` or `wait` in synthesizable code. FPGA RAM initialization with `$readmemh` is the exception and is marked `// NOTE: FPGA-only`. | Synthesis ignores them, so the simulation would describe different hardware. |      |
+| 5.16 | Label an `always_*` block that declares local variables, with a `p_` prefix: `always_comb begin : p_next_level` … `end : p_next_level`. Other blocks need no label. | Locals of an unnamed block get a tool-generated scope (or none) in simulators and waveform viewers; the label makes them easy to find. |      |
 
 ### 6. Hierarchy, packages & interfaces
 
