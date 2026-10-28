@@ -116,20 +116,68 @@ input logic CE,
 
 ## 5. Editor integration (VS Code)
 
-Install the **Verible** extension (`chipsalliance.verible`). It runs `verible-verilog-ls`, which
-lints while you type and formats on demand. The workspace settings in
-[`.vscode/settings.json`](../.vscode/settings.json) make the editor use the same rules, waivers and
-formatter options as the command line:
+The **Verible** extension (`chipsalliance.verible`) starts `verible-verilog-ls`, Verible's language
+server. It underlines lint violations while you type and formats the file on save or on
+*Format Document* (`Shift+Alt+F`). This repository ships two files in the `.vscode/` folder that set it up.
 
-```json
-"verible.arguments": [
-    "--rules_config_search",
-    "--waiver_files=.verible-lint.waiver",
-    "--flagfile=.verible-format.flags"
-]
+### 5.1 The two files
+
+**[`.vscode/extensions.json`](../.vscode/extensions.json)** lists the recommended extension. When
+the folder is opened, VS Code offers to install it ("Do you want to install the recommended
+extensions?"), and lists it under *Extensions > Workspace Recommendations*.
+
+**[`.vscode/settings.json`](../.vscode/settings.json)** holds the *workspace settings*. VS Code
+applies them automatically, on top of your own user settings, whenever this folder is open:
+
+| Setting                                     | What it does                                                                      |
+| ------------------------------------------- | --------------------------------------------------------------------------------- |
+| `verible.arguments`                         | Command-line options for the language server, so the editor matches the CLI:     |
+| ↳ `--rules_config_search`                   | lint with the nearest `.rules.verible_lint`                                       |
+| ↳ `--waiver_files=.verible-lint.waiver`     | Waive this file rules                            |
+| ↳ `--flagfile=.verible-format.flags`        | format with this style's formatter options                                        |
+| `files.associations`                        | Treats `*.svh` as SystemVerilog (the extension only maps `.sv` and `.v`)          |
+| `[systemverilog]` → `editor.defaultFormatter` | Uses Verible to format SystemVerilog, even if another Verilog extension is installed |
+| `[systemverilog]` → `editor.formatOnSave`   | Formats SystemVerilog files every time they are saved                             |
+| `files.eol`, `files.insertFinalNewline`, `files.trimTrailingWhitespace` | LF endings, final newline, no trailing spaces (same as `.editorconfig`) |
+
+Relative paths in `verible.arguments` are resolved from the folder opened in VS Code, so open the
+repository root with *File > Open Folder*, not a sub-folder or a single file.
+
+### 5.2 Set it up
+
+**In this repository:** nothing to copy. Install Verible (section 1), open the repository folder
+in VS Code and accept the extension recommendation.
+
+**In your own project:** copy the `.vscode/` folder to the project root, next to the three Verible
+files from section 3:
+
+```text
+my_project/
+├── .vscode/
+│   ├── extensions.json
+│   └── settings.json
+├── .rules.verible_lint
+├── .verible-lint.waiver
+├── .verible-format.flags
+└── rtl/ ...
 ```
 
-Add `"editor.formatOnSave": true` to your user settings to format every file when you save it.
+If the project already has a `.vscode/settings.json`, merge the entries above into it instead of
+replacing the file.
+
+**For every project on your machine:** open *Command Palette* (`Ctrl+Shift+P`) >
+*Preferences: Open User Settings (JSON)* and add the same entries there. The paths stay relative,
+so each project still needs the three Verible files in its root.
+
+If `verible-verilog-ls` is not on your `PATH`, point the extension to it with
+`"verible.path": "C:/tools/verible/verible-verilog-ls.exe"` (or the path on your system).
+
+### 5.3 Check that it works
+
+Open [`templates/template_module.sv`](../templates/template_module.sv): there should be no warnings.
+Rename the port `valid_i` to `valid` and the *Problems* panel (`Ctrl+Shift+M`) reports
+`port-name-suffix`; undo, and save to see the file formatted. After changing `settings.json`, run
+*Developer: Reload Window* so the language server restarts with the new arguments.
 
 ## 6. Pre-commit hook (optional)
 

@@ -54,6 +54,7 @@ Full instructions: **[docs/verible.md](docs/verible.md)**.
 | [`templates/`](templates/)                           | Module, FSM, package, interface, macro header and testbench      |
 | [`examples/sync_fifo/`](examples/sync_fifo/)         | A FIFO and its self-checking testbench, written to this style    |
 | [`docs/verible.md`](docs/verible.md)                 | Installing and using Verible, editor setup, pre-commit hook, CI  |
+| [`.vscode/`](.vscode/)                               | VS Code workspace settings: Verible lint and format on save      |
 | [`Makefile`](Makefile), [`.github/`](.github/)       | `make check`, `make sim` and the CI workflow that runs them      |
 | [`CHANGELOG.md`](CHANGELOG.md)                       | Version history of the style                                     |
 
