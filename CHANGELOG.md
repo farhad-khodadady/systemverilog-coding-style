@@ -5,7 +5,7 @@ All notable changes to this style guide are documented here. The format follows
 [Semantic Versioning](https://semver.org/): a new major version means existing code may need
 changes to stay compliant.
 
-## [1.0.0] - Unreleased
+## [1.0.0] - 2026-10-28
 
 ### Added
 
