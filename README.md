@@ -66,9 +66,9 @@ Full instructions: **[docs/verible.md](docs/verible.md)**.
 module pulse_counter #(
     parameter int unsigned WIDTH = 8  // Counter width in bits
 ) (
-    input  logic             clk,      // Clock
-    input  logic             rst_n,    // Asynchronous reset, active low
-    input  logic             pulse_i,  // Count this pulse
+    input  wire              clk,      // Clock
+    input  wire              rst_n,    // Asynchronous reset, active low
+    input  wire              pulse_i,  // Count this pulse
     output logic [WIDTH-1:0] count_o   // Number of pulses seen
 );
 
@@ -126,6 +126,7 @@ rule is checked by Verible with the configuration in this repository; the rest a
 | 2.4 | Every `if`, `else`, `for`, `always*` and `initial` body gets `begin`/`end`, even for one statement. | A line added later cannot silently fall outside the branch.            |  ✓   |
 | 2.5 | One declaration and one statement per line.                                                          | Clean diffs and meaningful `git blame`.                                |      |
 | 2.6 | Group code into the sections of the [templates](templates/), enclosed in full-width `// ====` banners (150 columns); `// ----` lines divide the parts inside a block such as the file header. | Every file has the same shape, so anything is quick to find.           |      |
+| 2.7 | No blank lines inside port, parameter and connection lists. To show groups, an optional `//` comment line may head each one. | The formatter aligns a list only up to a blank line; comment lines keep the whole list in one aligned block. |  ✓   |
 
 ### 3. Naming
 
@@ -167,20 +168,21 @@ rule is checked by Verible with the configuration in this repository; the rest a
 
 | ID   | Rule                                                                                                                 | Why                                                                                   | Lint |
 | ---- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | :--: |
-| 4.1  | Use 4-state `logic` for all RTL ports and signals.                                                                   | X from a missing reset or a multiple driver stays visible instead of becoming 0. |      |
-| 4.2  | Use 2-state types (`bit`, `int`, `int unsigned`, `byte`) for verification code, loop indices and parameters.          | Faster simulation where X/Z have no meaning.                                         |      |
-| 4.3  | Give every parameter an explicit type: `parameter int unsigned DEPTH = 16`.                                           | No implicit width or sign surprises.                                                 |  ✓   |
-| 4.4  | Declare `signed` explicitly for two's-complement arithmetic; never mix signed and unsigned operands without a cast.   | One unsigned operand makes the whole expression unsigned.                            |      |
-| 4.5  | `typedef` every user-defined type; types used by more than one module live in a package.                               | One definition, and connections are type-checked.                                    |  ✓   |
-| 4.6  | Enums have an explicit base type, `typedef enum logic [1:0] {...} state_e;`, and explicit values when encoding matters. | Fixed width and known encoding; without a base type an enum is a 2-state `int`. |  ✓   |
-| 4.7  | Group fields that travel together in a `struct packed` and pass it through one port.                                  | Adding a field changes one typedef instead of every port list.                       |      |
-| 4.8  | In RTL, use only `union packed` with members of equal width, to view the same bits in different ways.                  | Packed unions are synthesizable; tagged and unpacked unions generally are not.       |      |
-| 4.9  | Packed dimensions descend (`[W-1:0]`); unpacked dimensions use the size form (`[DEPTH]`) or ascend.                    | One ordering everywhere avoids reversed-slice bugs.                                 |  ✓   |
-| 4.10 | Use packed arrays for values handled as numbers or bit fields; unpacked arrays for memories and independent elements.  | Matches how synthesis infers RAMs and how simulators store data.                     |      |
-| 4.11 | Use fill literals `'0`, `'1`; binary literals are fully sized.                                                         | Fill literals stay correct when a width parameter changes.                           |  ✓   |
-| 4.12 | Constants: `localparam` inside modules, `localparam` in packages (a package `parameter` cannot be overridden anyway).   | The keyword says what the constant really is.                                       |  ✓   |
-| 4.13 | Declare at module scope: registers, nets between blocks, flags read in several places. Declare inside the block: loop indices and temporaries used only there. | Smallest useful scope, while state and shared nets stay visible. |      |
-| 4.14 | Block-local variables in `always_comb` are written before they are read; declare none in `always_ff`.                 | A local read before it is written keeps its old value, which describes storage. |      |
+| 4.1  | Use 4-state `logic` for all RTL signals.                                                                   | X from a missing reset or a multiple driver stays visible instead of becoming 0. |      |
+| 4.2  | Declare `input` and `inout` ports as nets, `input wire`, `inout wire`; declare `output` ports as variables, `output logic`. A `wire` without a type is `logic`; add the type only for a typedef: `input wire word_t data_i`. | A net input cannot be silently overwritten inside the module, and `default_nettype none` (7.1) requires the explicit `wire`. A variable output may be assigned directly in `always_ff`/`always_comb`, and a second driver is a compile error instead of an X in simulation. |      |
+| 4.3  | Use 2-state types (`bit`, `int`, `int unsigned`, `byte`) for verification code, loop indices and parameters.          | Faster simulation where X/Z have no meaning.                                         |      |
+| 4.4  | Give every parameter an explicit type: `parameter int unsigned DEPTH = 16`.                                           | No implicit width or sign surprises.                                                 |  ✓   |
+| 4.5  | Declare `signed` explicitly for two's-complement arithmetic; never mix signed and unsigned operands without a cast.   | One unsigned operand makes the whole expression unsigned.                            |      |
+| 4.6  | `typedef` every user-defined type; types used by more than one module live in a package.                               | One definition, and connections are type-checked.                                    |  ✓   |
+| 4.7  | Enums have an explicit base type, `typedef enum logic [1:0] {...} state_e;`, and explicit values when encoding matters. | Fixed width and known encoding; without a base type an enum is a 2-state `int`. |  ✓   |
+| 4.8  | Group fields that travel together in a `struct packed` and pass it through one port.                                  | Adding a field changes one typedef instead of every port list.                       |      |
+| 4.9  | In RTL, use only `union packed` with members of equal width, to view the same bits in different ways.                  | Packed unions are synthesizable; tagged and unpacked unions generally are not.       |      |
+| 4.10 | Packed dimensions descend (`[W-1:0]`); unpacked dimensions use the size form (`[DEPTH]`) or ascend.                    | One ordering everywhere avoids reversed-slice bugs.                                 |  ✓   |
+| 4.11 | Use packed arrays for values handled as numbers or bit fields; unpacked arrays for memories and independent elements.  | Matches how synthesis infers RAMs and how simulators store data.                     |      |
+| 4.12 | Use fill literals `'0`, `'1`; binary literals are fully sized.                                                         | Fill literals stay correct when a width parameter changes.                           |  ✓   |
+| 4.13 | Constants: `localparam` inside modules, `localparam` in packages (a package `parameter` cannot be overridden anyway).   | The keyword says what the constant really is.                                       |  ✓   |
+| 4.14 | Declare at module scope: registers, nets between blocks, flags read in several places. Declare inside the block: loop indices and temporaries used only there. | Smallest useful scope, while state and shared nets stay visible. |      |
+| 4.15 | Block-local variables in `always_comb` are written before they are read; declare none in `always_ff`.                 | A local read before it is written keeps its old value, which describes storage. |      |
 
 ### 5. Procedural code
 

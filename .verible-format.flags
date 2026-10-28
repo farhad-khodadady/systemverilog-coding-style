@@ -38,4 +38,6 @@
 --distribution_items_alignment=align
 
 # --- A blank line or a comment line starts a new alignment group, so each section is aligned on its own ---------------------------------------------
+# Port, parameter and connection lists ignore this flag: there a blank line always starts a new group and a comment line never does,
+# so these lists have no blank lines (README rule 2.7).
 --alignment_group_boundary=blank-lines-and-separator-comments

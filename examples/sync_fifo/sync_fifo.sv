@@ -30,19 +30,18 @@ module sync_fifo #(
     parameter int unsigned DATA_WIDTH = 8,  // Width of one entry in bits (>= 1)
     parameter int unsigned DEPTH      = 16  // Number of entries (>= 1)
 ) (
-
-    input  logic                       clk,
-    input  logic                       rst_n,
-
-    input  logic                       wr_valid_i,
+    input  wire                        clk,
+    input  wire                        rst_n,
+    // Write side
+    input  wire                        wr_valid_i,
     output logic                       wr_ready_o,
-    input  logic [     DATA_WIDTH-1:0] wr_data_i,
-
+    input  wire  [     DATA_WIDTH-1:0] wr_data_i,
+    // Read side
     output logic                       rd_valid_o,
-    input  logic                       rd_ready_i,
+    input  wire                        rd_ready_i,
     output logic [     DATA_WIDTH-1:0] rd_data_o,
-
-    output logic [$clog2(DEPTH+1)-1:0] level_o      // Number of words stored
+    // Number of words stored
+    output logic [$clog2(DEPTH+1)-1:0] level_o
 );
 
     timeunit 1ns; timeprecision 1ps;

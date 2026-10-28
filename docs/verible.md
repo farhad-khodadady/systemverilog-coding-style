@@ -23,12 +23,19 @@ curl -fsSL "https://github.com/chipsalliance/verible/releases/download/${VERIBLE
 sudo cp verible-${VERIBLE_VERSION}/bin/* /usr/local/bin/      # or add the bin/ folder to PATH
 ```
 
-**macOS** (Homebrew):
+**macOS** (Apple silicon and Intel). The Homebrew tap (`chipsalliance/verible`) lags behind the
+releases and its version does not support every option in `.verible-format.flags`, so install the
+release binaries instead:
 
 ```bash
-brew tap chipsalliance/verible
-brew install verible
+VERIBLE_VERSION=v0.0-4296-g0f262651
+curl -fsSL "https://github.com/chipsalliance/verible/releases/download/${VERIBLE_VERSION}/verible-${VERIBLE_VERSION}-macOS.tar.gz" | tar -xz
+mkdir -p ~/.local/bin && cp verible-${VERIBLE_VERSION}-macOS/bin/* ~/.local/bin/
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zprofile     # then open a new terminal
 ```
+
+If an older Verible was installed with Homebrew, remove it (`brew uninstall verible`) so it does not
+shadow the new one.
 
 **Windows**: download `verible-<version>-win64.zip` from the releases page, extract it (for example
 to `C:\tools\verible`) and add that folder to `PATH`
@@ -104,7 +111,7 @@ Prefer fixing the code. When a waiver is justified, keep it next to the code and
 ```systemverilog
 // LINT: vendor primitive keeps its upstream port names.
 // verilog_lint: waive port-name-suffix
-input logic CE,
+input wire CE,
 ```
 
 | Scope                         | Syntax                                                                   |

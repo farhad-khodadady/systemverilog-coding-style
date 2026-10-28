@@ -27,8 +27,8 @@
 interface template_if #(
     parameter int unsigned DATA_WIDTH = 32  // Payload width in bits
 ) (
-    input logic clk,   // Clock shared by source and sink
-    input logic rst_n  // Asynchronous reset, active low
+    input wire clk,   // Clock shared by source and sink
+    input wire rst_n  // Asynchronous reset, active low
 );
 
     timeunit 1ns; timeprecision 1ps;

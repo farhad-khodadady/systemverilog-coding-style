@@ -36,18 +36,18 @@ module template_module
     parameter int unsigned RUN_CYCLES = 8  // Cycles the input window stays open after start_i
 ) (
     // Clock and reset
-    input  logic  clk,      // Clock
-    input  logic  rst_n,    // Asynchronous reset, active low
+    input  wire        clk,      // Clock
+    input  wire        rst_n,    // Asynchronous reset, active low
     // Control
-    input  logic  start_i,  // Open the input window
-    output logic  busy_o,   // Input window is open
-    output logic  done_o,   // One-cycle pulse when the window closes
+    input  wire        start_i,  // Open the input window
+    output logic       busy_o,   // Input window is open
+    output logic       done_o,   // One-cycle pulse when the window closes
     // Data input
-    input  logic  valid_i,  // data_i is valid
-    input  word_t data_i,   // Input word
+    input  wire        valid_i,  // data_i is valid
+    input  wire word_t data_i,   // Input word
     // Data output
-    output logic  valid_o,  // data_o is valid
-    output word_t data_o    // Byte-swapped input word
+    output logic       valid_o,  // data_o is valid
+    output word_t      data_o    // Byte-swapped input word
 );
 
     timeunit 1ns; timeprecision 1ps;

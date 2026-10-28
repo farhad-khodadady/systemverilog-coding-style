@@ -27,9 +27,9 @@
 module template_fsm #(
     parameter int unsigned RUN_CYCLES = 4  // Number of cycles spent in RUN (>= 1)
 ) (
-    input  logic clk,      // Clock
-    input  logic rst_n,    // Asynchronous reset, active low
-    input  logic start_i,  // Start a run (ignored while busy)
+    input  wire  clk,      // Clock
+    input  wire  rst_n,    // Asynchronous reset, active low
+    input  wire  start_i,  // Start a run (ignored while busy)
     output logic busy_o,   // High while a run is in progress
     output logic done_o    // One-cycle pulse when a run completes
 );
